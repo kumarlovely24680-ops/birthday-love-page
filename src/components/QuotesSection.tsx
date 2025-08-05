@@ -4,24 +4,25 @@ import { Quote } from 'lucide-react';
 
 const quotes = [
   {
-    text: "Every moment with you feels like a beautiful dream that I never want to wake up from.",
-    subtitle: "You are my forever"
+    text: " I know there were many times I didn’t stand by you during your tough moments. I’m truly sorry Pandu for those unintentional actions on my part, Every moment with you feels like a beautiful dream that I never want to wake up from.",
+    subtitle: "You are my forever Love"
   },
   {
-    text: "Your smile lights up my world brighter than all the stars in the sky combined.",
+    text: "love you so much Pandu ,You always make me feel like everything’s going to be okay. You’ve been there for me in my toughest times, right when I needed you the most. Thank you for being that person, Your smile lights up my world brighter than all the stars in the sky combined. ",
     subtitle: "My sunshine"
   },
+  
   {
-    text: "In a world full of temporary things, you are my constant source of joy and love.",
-    subtitle: "My everything"
-  },
-  {
-    text: "You make ordinary moments extraordinary just by being yourself.",
+    text: "Specially , You make our ordinary moments extraordinary just by taking decisions for both of our happiness and creating memories. You are so perfect at loving Pandu.",
     subtitle: "Simply perfect"
   },
   {
-    text: "With you, I've found my home, my best friend, and my greatest love all in one person.",
+    text: "With you, I've found my home, my best friend, my love, my everything, and my greatest love all in one person.",
     subtitle: "My heart's home"
+  },
+  {
+    text: "I Love You Pandu , Bubu, Cutie Pie, Kamala Kay, Bubu Thalli, Bangaram, Bujji Munda, Cutu Amma, Junior, Satwika,  ",
+    subtitle: "I Love You My Girl"
   }
 ];
 

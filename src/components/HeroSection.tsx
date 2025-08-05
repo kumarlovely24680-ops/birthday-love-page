@@ -55,9 +55,8 @@ const HeroSection = () => {
           <h2 className="text-script text-4xl md:text-6xl lg:text-7xl font-medium mb-8">
             My Beautiful Love ✨
           </h2>
-          <p className="text-elegant text-xl md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed text-foreground/80">
-            Today is your special day, and I wanted to create something beautiful just for you. 
-            You bring so much joy and love into my life every single day.
+          <p className="text-elegant text-xl md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed text-foreground/80"> 
+            Today is your special day, i am unable to give you a gift or anything fancy so i just created this page for you on my ability. I hope you will like it atleast,this is my small way of wishing you a happy birthday.
           </p>
           
           {/* Action button */}
