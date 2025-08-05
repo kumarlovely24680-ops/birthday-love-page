@@ -60,22 +60,14 @@ const HeroSection = () => {
             You bring so much joy and love into my life every single day.
           </p>
           
-          {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          {/* Action button */}
+          <div className="flex justify-center items-center">
             <Button 
               onClick={() => scrollToSection('quotes')}
               className="bg-romantic hover:shadow-glow transition-romantic px-8 py-6 text-lg font-medium rounded-full"
             >
               <Heart className="w-5 h-5 mr-2" />
               Read My Messages
-            </Button>
-            <Button 
-              onClick={() => scrollToSection('gifts')}
-              variant="outline"
-              className="border-2 border-primary/50 hover:border-primary hover:bg-primary/10 transition-romantic px-8 py-6 text-lg font-medium rounded-full"
-            >
-              <Gift className="w-5 h-5 mr-2" />
-              See Your Gifts
             </Button>
           </div>
         </div>

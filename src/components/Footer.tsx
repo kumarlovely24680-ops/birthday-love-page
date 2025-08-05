@@ -23,11 +23,7 @@ const Footer = () => {
             <Calendar className="w-8 h-8 text-white mb-3" />
             <p className="text-white font-medium">Your Special Day</p>
             <p className="text-white/80 text-sm">
-              {new Date().toLocaleDateString('en-US', { 
-                month: 'long', 
-                day: 'numeric',
-                year: 'numeric'
-              })}
+              August 7, 2025
             </p>
           </div>
           
@@ -50,7 +46,7 @@ const Footer = () => {
             "In your eyes, I have found my home. In your heart, I have found my love."
           </blockquote>
           <p className="text-white/70 text-sm">
-            Happy Birthday, my beautiful love ✨ | Created with 💖 in {currentYear}
+            Happy Birthday, my beautiful love ✨
           </p>
         </div>
 

@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { Camera, Heart, X } from 'lucide-react';
+import { Camera, Heart, X, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Placeholder photos - you can replace these with actual photos
+// 10 beautiful photos of her - you can replace these with actual photos
 const photos = [
   {
     id: 1,
@@ -41,30 +41,69 @@ const photos = [
     url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=800&fit=crop&crop=face",
     caption: "Together we create the most beautiful story 📖",
     date: "Our journey"
+  },
+  {
+    id: 7,
+    url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop&crop=face",
+    caption: "Your beauty takes my breath away every time 🌸",
+    date: "Mesmerizing"
+  },
+  {
+    id: 8,
+    url: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=800&h=800&fit=crop&crop=face",
+    caption: "In your presence, everything feels magical ✨",
+    date: "Pure magic"
+  },
+  {
+    id: 9,
+    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop&crop=face",
+    caption: "You are the missing piece to my puzzle 🧩",
+    date: "My soulmate"
+  },
+  {
+    id: 10,
+    url: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&h=800&fit=crop&crop=face",
+    caption: "With you, every day feels like a beautiful dream 💫",
+    date: "My dream come true"
   }
 ];
 
 const PhotoGallery = () => {
-  const [visiblePhotos, setVisiblePhotos] = useState<number[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<typeof photos[0] | null>(null);
 
+  // Auto-rotate functionality
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + photos.length) % photos.length);
+  }, []);
+
+  const goToSlide = useCallback((index: number) => {
+    setCurrentIndex(index);
+  }, []);
+
+  // Auto-rotate timer
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = parseInt(entry.target.getAttribute('data-index') || '0');
-            setVisiblePhotos(prev => [...new Set([...prev, index])]);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+    if (!isPlaying) return;
 
-    const photoElements = document.querySelectorAll('.photo-card');
-    photoElements.forEach((el) => observer.observe(el));
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 1000);
 
-    return () => observer.disconnect();
+    return () => clearInterval(interval);
+  }, [isPlaying, nextSlide]);
+
+  // Pause auto-rotate on hover
+  const handleMouseEnter = useCallback(() => {
+    setIsPlaying(false);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsPlaying(true);
   }, []);
 
   return (
@@ -79,77 +118,95 @@ const PhotoGallery = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* Carousel Container */}
+        <div 
+          className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl shadow-soft"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* Images */}
           {photos.map((photo, index) => (
-            <Dialog key={photo.id}>
-              <DialogTrigger asChild>
-                <Card
-                  data-index={index}
-                  className={`photo-card group relative overflow-hidden cursor-pointer shadow-soft hover:shadow-romantic transition-romantic bg-card border-primary/20 ${
-                    visiblePhotos.includes(index) 
-                      ? 'opacity-100 translate-y-0 scale-100' 
-                      : 'opacity-0 translate-y-8 scale-95'
-                  } transition-all duration-700`}
-                  style={{ transitionDelay: `${index * 150}ms` }}
-                  onClick={() => setSelectedPhoto(photo)}
-                >
-                  {/* Photo */}
-                  <div className="relative overflow-hidden aspect-square">
-                    <img
-                      src={photo.url}
-                      alt={photo.caption}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    
-                    {/* Overlay */}
-                    <div className="photo-overlay">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-white/90 rounded-full p-3 shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                          <Camera className="w-6 h-6 text-primary" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Heart indicator */}
-                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Heart className="w-6 h-6 text-white fill-current drop-shadow-lg" />
-                    </div>
-                  </div>
-
-                  {/* Caption */}
-                  <div className="p-4">
-                    <p className="text-sm text-muted-foreground text-center leading-relaxed">
-                      {photo.caption}
-                    </p>
-                    <p className="text-script text-primary text-center mt-2 font-medium">
-                      {photo.date}
-                    </p>
-                  </div>
-                </Card>
-              </DialogTrigger>
-
-              {/* Photo modal */}
-              <DialogContent className="max-w-4xl border-none bg-black/90 p-0">
-                <div className="relative">
-                  <img
-                    src={photo.url}
-                    alt={photo.caption}
-                    className="w-full h-auto max-h-[80vh] object-contain"
-                  />
-                  
-                  {/* Caption overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                    <p className="text-white text-lg md:text-xl text-center leading-relaxed">
-                      {photo.caption}
-                    </p>
-                    <p className="text-script text-primary text-center mt-2 text-lg font-medium">
-                      {photo.date}
-                    </p>
-                  </div>
+            <div
+              key={photo.id}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === currentIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <img
+                src={photo.url}
+                alt={photo.caption}
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Gradient overlay for better text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              
+              {/* Caption overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                <div className="text-center">
+                  <p className="text-white text-lg md:text-xl lg:text-2xl font-medium leading-relaxed mb-2">
+                    {photo.caption}
+                  </p>
+                  <p className="text-script text-primary text-lg md:text-xl font-medium">
+                    {photo.date}
+                  </p>
                 </div>
-              </DialogContent>
-            </Dialog>
+              </div>
+            </div>
           ))}
+
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 group"
+            aria-label="Previous photo"
+          >
+            <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
+          </button>
+
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 group"
+            aria-label="Next photo"
+          >
+            <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
+          </button>
+
+          {/* Play/Pause Button */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 group"
+            aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
+          >
+            {isPlaying ? (
+              <Pause className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
+            ) : (
+              <Play className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
+            )}
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {photos.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-white scale-125' 
+                    : 'bg-white/50 hover:bg-white/70'
+                }`}
+                aria-label={`Go to photo ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Photo Counter */}
+          <div className="absolute top-4 left-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
+            <span className="text-white text-sm font-medium">
+              {currentIndex + 1} / {photos.length}
+            </span>
+          </div>
         </div>
 
         {/* Bottom message */}

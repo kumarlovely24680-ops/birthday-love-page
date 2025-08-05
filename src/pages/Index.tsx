@@ -1,6 +1,5 @@
 import HeroSection from '@/components/HeroSection';
 import QuotesSection from '@/components/QuotesSection';
-import GiftsSection from '@/components/GiftsSection';
 import PhotoGallery from '@/components/PhotoGallery';
 import Footer from '@/components/Footer';
 
@@ -9,7 +8,6 @@ const Index = () => {
     <div className="min-h-screen">
       <HeroSection />
       <QuotesSection />
-      <GiftsSection />
       <PhotoGallery />
       <Footer />
     </div>
