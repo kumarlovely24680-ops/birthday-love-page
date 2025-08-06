@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { Camera, Heart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -121,26 +121,35 @@ const PhotoGallery = () => {
                   </div>
                 </Card>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[90vh] p-0 overflow-hidden bg-transparent border-0 shadow-none">
-                <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-100 to-purple-100 rounded-2xl">
-                  <img
-                    src={photo.url}
-                    alt={photo.caption}
-                    className="w-full h-full object-contain p-8"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full"
-                      onClick={() => setSelectedPhoto(null)}
-                    >
-                      <X className="w-5 h-5 text-white" />
-                    </Button>
+              <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0 bg-white border-0 shadow-2xl">
+                <div className="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50">
+                  {/* Close button */}
+                  <div className="absolute top-4 right-4 z-10">
+                    <DialogClose asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full shadow-lg"
+                      >
+                        <X className="w-5 h-5 text-gray-700" />
+                      </Button>
+                    </DialogClose>
                   </div>
+                  
+                  {/* Image container */}
+                  <div className="w-full h-full flex items-center justify-center p-8">
+                    <img
+                      src={photo.url}
+                      alt={photo.caption}
+                      className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+                      style={{ maxHeight: 'calc(90vh - 120px)' }}
+                    />
+                  </div>
+                  
+                  {/* Caption */}
                   <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-                      <p className="text-white text-lg font-medium text-center">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
+                      <p className="text-gray-800 text-lg font-medium text-center">
                         {photo.caption}
                       </p>
                     </div>
